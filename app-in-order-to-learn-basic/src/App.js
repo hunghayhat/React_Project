@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-function Square({ value, onSquareClick }) {
+function Square({ value, onSquareClick }) { //Nhận vào 1 đối tượng props chứa 2 thuộc tính value và onSquareClick
   return (
     <div className='square' onClick={onSquareClick}>
       {value}
@@ -10,10 +10,10 @@ function Square({ value, onSquareClick }) {
 
 function Board({ xIsNext, squares, onPlay }) {
   function handleClick(i) {
-    if (squares[i] || caculateWinner(squares)) {
+    if (squares[i] || caculateWinner(squares)) { // squares: Mảng chứa giá trị của các ô vuông
       return;
     }
-    const nextSquares = squares.slice();
+    const nextSquares = squares.slice(); // sao chép lại y nguyên mảng cũ
     if (xIsNext) nextSquares[i] = "X"
     else nextSquares[i] = "O"
     onPlay(nextSquares)
@@ -31,17 +31,17 @@ function Board({ xIsNext, squares, onPlay }) {
         <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
         <Square value={squares[2]} onSquareClick={() => handleClick(2)} />
       </div>
+
       <div className="board-row">
         <Square value={squares[3]} onSquareClick={() => handleClick(3)} />
         <Square value={squares[4]} onSquareClick={() => handleClick(4)} />
         <Square value={squares[5]} onSquareClick={() => handleClick(5)} />
-
       </div>
+
       <div className="board-row">
         <Square value={squares[6]} onSquareClick={() => handleClick(6)} />
         <Square value={squares[7]} onSquareClick={() => handleClick(7)} />
         <Square value={squares[8]} onSquareClick={() => handleClick(8)} />
-
       </div>
     </>
   );
@@ -55,7 +55,7 @@ export default function Game() {
   const currentSquares = history[currentMove]
 
   function handlePlay(nextSquares) {
-    const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
+    const nextHistory = [...history.slice(0, currentMove + 1), nextSquares]; // tạo 1 mảng mới bàng cách kết hợp mảng history với nextSquares
     setHistory(nextHistory);
     setCurrentMove(nextHistory.length - 1)
   }
@@ -63,7 +63,7 @@ export default function Game() {
   function jumpTo(nextMove) {
     setCurrentMove(nextMove);
   }
-  
+
   const moves = history.map((squares, move) => {
     let description;
     if (move > 0) description = "Go to move #" + move;
@@ -81,7 +81,7 @@ export default function Game() {
         <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
       </div>
       <div className='game-info'>
-        <ol>{ moves }</ol>
+        <ol>{moves}</ol>
       </div>
     </div>
   )
@@ -101,7 +101,7 @@ function caculateWinner(squares) {
   ];
   for (let i = 0; i < lines.length; i++) {
     const [a, b, c] = lines[i];
-    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c])
+    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) // Kiểm tra giá trị của các ô theo hàng, cột, chéo có bằng nhau hay không
       return squares[a];
   }
   return null;
